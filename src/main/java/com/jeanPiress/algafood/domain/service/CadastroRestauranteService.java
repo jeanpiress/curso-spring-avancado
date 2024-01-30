@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.jeanPiress.algafood.domain.exception.EntidadeEmUsoException;
 import com.jeanPiress.algafood.domain.exception.RestauranteNaoEncontradoException;
+import com.jeanPiress.algafood.domain.model.Cidade;
 import com.jeanPiress.algafood.domain.model.Cozinha;
 import com.jeanPiress.algafood.domain.model.Restaurante;
 import com.jeanPiress.algafood.domain.repository.RestauranteRepository;
@@ -24,6 +25,9 @@ public class CadastroRestauranteService {
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
 	
+	@Autowired
+	private CadastroCidadeService cadastroCidade;
+	
 	public Restaurante buscarPorId(Long id) {
 		return restauranteRepository.findById(id).
 				orElseThrow(() -> new RestauranteNaoEncontradoException(id));
@@ -32,9 +36,12 @@ public class CadastroRestauranteService {
 	@Transactional
 	public Restaurante adicionar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
+		Long cidadeId = restaurante.getEndereco().getCidade().getId();
 		Cozinha cozinha = cadastroCozinha.buscarPorId(cozinhaId);
-			
+		Cidade cidade = cadastroCidade.buscarPorId(cidadeId);
+		
 		restaurante.setCozinha(cozinha);
+		restaurante.getEndereco().setCidade(cidade);
 		
 		return restauranteRepository.save(restaurante);
 	}

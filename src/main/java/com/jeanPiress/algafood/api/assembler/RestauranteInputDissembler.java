@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.jeanPiress.algafood.api.model.input.RestauranteInput;
+import com.jeanPiress.algafood.domain.model.Cidade;
 import com.jeanPiress.algafood.domain.model.Cozinha;
 import com.jeanPiress.algafood.domain.model.Restaurante;
 
@@ -22,6 +23,10 @@ public class RestauranteInputDissembler {
 		//Para evitar erro do jpa achar que está tentando alterar o id 
 		//de uma cozinha que já existe.
 		restaurante.setCozinha(new Cozinha());
+		
+		if(restaurante.getEndereco() != null) {
+			restaurante.getEndereco().setCidade(new Cidade());
+		}
 		
 		modelMapper.map(restauranteImput, restaurante);
 	}
