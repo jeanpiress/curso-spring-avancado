@@ -16,17 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.jeanPiress.algafood.core.validation.Grups;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,11 +33,9 @@ public class Restaurante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
 	private String nome;
 	
 	@Column(nullable = false, name = "taxa_frete")
-	@PositiveOrZero
 	private BigDecimal taxaFrete;
 	
 	@Column(nullable = false, columnDefinition = "datetime")
@@ -58,13 +48,12 @@ public class Restaurante {
 	
 	@ManyToOne
 	@JoinColumn(name = "cozinha_id")
-	@NotNull
-	@Valid
-	@ConvertGroup(from = Default.class, to = Grups.CozinhaId.class)
 	private Cozinha cozinha;
 	
 	@Embedded
 	private Endereco endereco;
+	
+	private Boolean ativo = Boolean.TRUE;
 	
 	@ManyToMany
 	@JoinTable(
@@ -75,4 +64,12 @@ public class Restaurante {
 		
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
+	
+	public void ativar() {
+		setAtivo(true);
+	}
+	
+	public void inativar() {
+		setAtivo(false);
+	}
 }

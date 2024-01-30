@@ -14,8 +14,8 @@ public class RestauranteInputDissembler {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public Restaurante toDomainObject(RestauranteInput restauranteImput) {
-		return modelMapper.map(restauranteImput, Restaurante.class);
+	public Restaurante toDomainObject(RestauranteInput restauranteInput) {
+		return modelMapper.map(restauranteInput, Restaurante.class);
 	}
 	
 	public void copyToDomainObject(RestauranteInput restauranteImput, Restaurante restaurante) {

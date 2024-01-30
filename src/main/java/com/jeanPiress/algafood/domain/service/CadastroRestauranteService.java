@@ -40,6 +40,18 @@ public class CadastroRestauranteService {
 	}
 	
 	@Transactional
+	public void ativar(Long restauranteId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		restaurante.ativar();
+	}
+	
+	@Transactional
+	public void inativar(Long restauranteId) {
+		Restaurante restaurante = buscarPorId(restauranteId);
+		restaurante.inativar();
+	}
+	
+	@Transactional
 	public void remover(Long id) {
 		try {
 			restauranteRepository.deleteById(id);
